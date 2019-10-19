@@ -8,29 +8,30 @@ public class board {
 	
 	public board() {
 		this.inPlay = true;
+		this.setBoard();
 	}
 	
 	public void setBoard() {		
 		for(int i = 0; i < 8; i++) {
-			gameBoard[1][i] = new Pawn('b', 1, i);
-			gameBoard[6][i] = new Pawn('w', 6, i); 
+			gameBoard[1][i] = new Pawn('b');
+			gameBoard[6][i] = new Pawn('w'); 
 		}
-		gameBoard[0][0] = new Rook('b', 0, 0);
-		gameBoard[0][7] = new Rook('b', 0, 7);
-		gameBoard[0][1] = new Knight('b', 0, 1);
-		gameBoard[0][6] = new Knight('b', 0, 6);
-		gameBoard[0][2] = new Bishop('b', 0, 2);
-		gameBoard[0][5] = new Bishop('b', 0, 5);
-		gameBoard[0][3] = new Queen('b', 0, 3);
-		gameBoard[0][4] = new King('b', 0, 4);
-		gameBoard[7][0] = new Rook('w', 7, 0);
-		gameBoard[7][7] = new Rook('w', 7, 7);
-		gameBoard[7][1] = new Knight('w', 7, 1);
-		gameBoard[7][6] = new Knight('w', 7, 6);
-		gameBoard[7][2] = new Bishop('w', 7, 2);
-		gameBoard[7][5] = new Bishop('w', 7, 5);
-		gameBoard[7][3] = new Queen('w', 7, 3);
-		gameBoard[7][4] = new King('w', 7, 4);
+		gameBoard[0][0] = new Rook('b');
+		gameBoard[0][7] = new Rook('b');
+		gameBoard[0][1] = new Knight('b');
+		gameBoard[0][6] = new Knight('b');
+		gameBoard[0][2] = new Bishop('b');
+		gameBoard[0][5] = new Bishop('b');
+		gameBoard[0][3] = new Queen('b');
+		gameBoard[0][4] = new King('b');
+		gameBoard[7][0] = new Rook('w');
+		gameBoard[7][7] = new Rook('w');
+		gameBoard[7][1] = new Knight('w');
+		gameBoard[7][6] = new Knight('w');
+		gameBoard[7][2] = new Bishop('w');
+		gameBoard[7][5] = new Bishop('w');
+		gameBoard[7][3] = new Queen('w');
+		gameBoard[7][4] = new King('w');
 	}
 	
 	public boolean movePiece(String move) {
@@ -41,11 +42,13 @@ public class board {
 		y1 = yTran(move.charAt(1));
 		x2 = Math.abs(move.charAt(3));
 		y2 = yTran(move.charAt(4));
+		
 		if((x1 > 8 || x1 < 1) || (x2 > 8 || x2 < 1) ||
 				(y1 > 8 || y1 < 1) ||(y2 > 8 || y2 < 1) )
 			return false;
-		if(gameBoard[x1][y1].check(x1,y1,x2,y2)) {
-			gameBoard[x1][y1].move(x2,y2);
+		
+		//Confirm Move
+		if(gameBoard[x1][y1].check(gameBoard, x1, y1, x2,y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
 			return true;
@@ -71,32 +74,19 @@ public class board {
 				}
 				else {
 					String p = "";
-					if(gameBoard[x][y].team == 'w')
+					if(gameBoard[x][y].getTeam() == 'w')
 						p += 'w';
 					else
 						p += 'b';
-					String type = gameBoard[x][y].type;
+					String type = gameBoard[x][y].getType();
 					switch (type) {
-					case "Pawn":
-						p += "p";
-						break;
-					case "Rook":
-						p += "R";
-						break;
-					case "Knight":
-						p += "N";
-						break;
-					case "Bishop":
-						p += "B";
-						break;
-					case "Queen":
-						p += "Q";
-						break;
-					case "King":
-						p += "K";
-						break;
-					default: 
-						break;					
+					case "Pawn": p += "p"; break;
+					case "Rook": p += "R"; break;
+					case "Knight": p += "N"; break;
+					case "Bishop": p += "B"; break;
+					case "Queen": p += "Q";	break;
+					case "King":p += "K"; break;
+					default: break;					
 					}
 					System.out.print(p + " ");
 				}
@@ -106,27 +96,17 @@ public class board {
 		System.out.print(" a  b  c  d  e  f  g  h ");
 	}
 	
-	public int yTran(char i) {
-		int val; 
+	public int yTran(char i) { 
 		switch (i) {
-			case 'a':
-				return 0;
-			case 'b':
-				return 1;
-			case 'c':
-				return 2;
-			case 'd':
-				return 3;
-			case 'e':
-				return 4;
-			case 'f':
-				return 5;
-			case 'g':
-				return 6;
-			case 'h':
-				return 7;
-			default:
-				return 8;
+			case 'a':return 0;
+			case 'b':return 1;
+			case 'c':return 2;
+			case 'd':return 3;
+			case 'e':return 4;
+			case 'f':return 5;
+			case 'g':return 6;
+			case 'h':return 7;
+			default:return 8;
 		}
 	}
 }

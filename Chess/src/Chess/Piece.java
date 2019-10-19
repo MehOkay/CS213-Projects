@@ -1,16 +1,12 @@
 package Chess;
 
-public class Piece {
+public abstract class Piece {
 	public String type;
 	public char team;
-	public int x;
-	public int y;
 	
-	public Piece(String type, char team, int x, int y) {
-		this.type = type;
-		this.team = team;
-		this.x = x;
-		this.y = y;
-	}
-	
+	public abstract char getTeam();
+	public abstract String getType();
+	public abstract boolean check(Piece gameBoard[][], 
+			int x1, int y1, 
+			int x2, int y2);
 }

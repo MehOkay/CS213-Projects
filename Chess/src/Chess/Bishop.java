@@ -1,13 +1,23 @@
 package Chess;
 
 public class Bishop extends Piece {
-	public Bishop(char team, int x, int y) {
-		super("Bishop", team, x ,y);
+	public char team;
+	public String type = "Bishop";
+	boolean firstM = true;
+	
+	public Bishop(char team) {
+		this.team = team;
 	}
-	public boolean move(int x, int y) {
-		
-		return true;
+	public char getTeam() {
+		return this.team;
+	}
+	public String getType() {
+		return this.type;
 	}
 	
-	
+	public boolean check(Piece gameBoard[][], 
+			int x1, int y1, 
+			int x2, int y2) {
+		return true; 
+	}
 }
