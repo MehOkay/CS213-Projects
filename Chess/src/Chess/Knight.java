@@ -24,11 +24,11 @@ public class Knight extends Piece {
 	 * checMove() takes in the current position and new position of knight's move and returns true if it is a valid move for Knight. 
 	 * This is different from checkHelper() which determines ALL possible knight moves. 
 	 * 
-	 * @param gameBoard
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
+	 * @param gameBoard is the current game board
+	 * @param x1 is the current row
+	 * @param y1 is the current column
+	 * @param x2 is the new row
+	 * @param y2 is the new column
 	 * 
 	 * @return true if move is valid and false otherwise.
 	 */
@@ -62,12 +62,14 @@ public class Knight extends Piece {
 	
 	/**
 	 * helper method to checkMove(). Checks to see if destination is one of the possible new positions of a knight.
-	 * @param gameBoard
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
-	 * @return
+	 * 
+	 * @param gameBoard is the current game board
+	 * @param x1 is the current row
+	 * @param y1 is the current column
+	 * @param x2 is the new row
+	 * @param y2 is the new column
+	 * 
+	 * @return true if destination is one of the possible new positions of a knight, otherwise false.
 	 */
 	private boolean checkMoveHelper(Piece gameBoard[][], 
 			int x1, int y1, 
