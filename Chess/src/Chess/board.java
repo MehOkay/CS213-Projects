@@ -74,9 +74,56 @@ public class board {
 		return true;
 	}
 	
-	public boolean check(){
-		return true;
+	/**
+	 * Checks to see if the king of the given color is in check. Needs to be called twice after every move
+	 * @param gameBoard
+	 * @param team
+	 * @return boolean value corresponding to the king being in check
+	 */
+	
+	public boolean check(Piece gameBoard[][], char team){
+		int[] kingPos = getKingPosition(gameBoard, team);
+		int row = kingPos[0];
+		int col = kingPos[1];
+		
+		//White king
+		if(gameBoard[row][col].getTeam() == 'w') {
+			
+	        for(int x = 0; x<gameBoard.length; x++){
+	            for(int y = 0; y<gameBoard[0].length; y++){
+	            	
+	                if(gameBoard[x][y] != null){
+	                	if(gameBoard[x][y].getTeam() == 'b') {
+	                		 if(gameBoard[x][y].checkMove(gameBoard, x, y, row, col)){
+	 	                        return true;
+	 	                    }
+	                	}
+	                   
+	                }
+	            }
+	        }
+		}
+		//Black King
+		else if (gameBoard[row][col].getTeam() == 'b') {
+	        
+			for(int x = 0; x<gameBoard.length; x++){
+	            for(int y = 0; y<gameBoard[0].length; y++){
+	            	
+	                if(gameBoard[x][y] != null){
+	                	if(gameBoard[x][y].getTeam() == 'w') {
+	                		 if(gameBoard[x][y].checkMove(gameBoard, x, y, row, col)){
+	 	                        return true;
+	 	                    }
+	                	}
+	                   
+	                }
+	            }
+	        }
+		}
+		
+		return false;
 	}
+	
 	public boolean checkmate() {
 		return false;
 	}
@@ -132,5 +179,34 @@ public class board {
 			case 'h':return 7;
 			default:return 8;
 		}
+	}
+	
+	/**
+	 * Gets the position of a given team's King piece
+	 * @param gameBoard
+	 * @param team
+	 * @return int array corresponding to a King's row and column. The first element is the row and second element is the column. 
+	 */
+	private int [] getKingPosition(Piece[][] gameBoard, char team) {
+		
+		int[] kingPos = new int[2];
+		int kingRow = 0, kingCol = 0;
+		
+		for (int i = 0; i < gameBoard.length; i++) {
+			for(int j = 0; j < gameBoard[0].length; j++) {
+				if(gameBoard[i][j] != null) {
+					if( (gameBoard[i][j] instanceof King) && (gameBoard[i][j].getTeam() == team)) {
+						kingRow = i;
+						kingCol = j;
+						break;
+					}
+				}
+			}
+		}
+		
+		kingPos[0] = kingRow;
+		kingPos[1] = kingCol;
+		
+		return kingPos;
 	}
 }
