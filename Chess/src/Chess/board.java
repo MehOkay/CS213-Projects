@@ -58,7 +58,7 @@ public class board {
 			return false;
 		
 		//Confirm Move
-		if(gameBoard[x1][y1].check(gameBoard, x1, y1, x2,y2)) {
+		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
 			turns++;

@@ -6,7 +6,7 @@ public abstract class Piece {
 	
 	public abstract char getTeam();
 	public abstract String getType();
-	public abstract boolean check(Piece gameBoard[][], 
+	public abstract boolean checkMove(Piece gameBoard[][], 
 			int x1, int y1, 
 			int x2, int y2);
 }

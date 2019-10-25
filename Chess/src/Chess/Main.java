@@ -19,18 +19,18 @@ public class Main {
 			input = in.nextLine();
 			if(input.length() == 5) {
 				if(!Game.movePiece(input)) {
-					System.out.println("Invalid move\n");
+					System.out.println("Invalid move, try again\n");
 					continue;
 				}
 			}
 			else if(input.length() == 7) {
 				if(!Game.specialMove(input)) {
-					System.out.println("Invalid move\n");
+					System.out.println("Invalid move, try again\n");
 					continue;
 				}
 			} 
 			else {
-				System.out.println("Invalid move\n");
+				System.out.println("Invalid move,try again\n");
 				continue;
 			}
 			

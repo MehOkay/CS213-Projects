@@ -56,7 +56,7 @@ public class Pawn extends Piece {
 				if(gameBoard[x2][y2] == null) {
 					//two forward
 					if(x1 - x2 == -2) {
-						//first row
+						//can only move 2 from first row
 						if(x1 == 6) {
 							//nothing in between
 							if(gameBoard[x2-1][y2] == null) {
@@ -67,6 +67,7 @@ public class Pawn extends Piece {
 						}
 						else return false;
 					}
+					//1 forward
 					else if(x1 - x2 == -1) {
 						return true;
 					}
@@ -79,7 +80,7 @@ public class Pawn extends Piece {
 			}
 			//kill 
 			else {
-				//if piece exists in 1 diagonal
+				//if black piece exists in 1 diagonal
 				if((gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'b')
 						&& (Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1)) {
 					return true;
@@ -118,8 +119,8 @@ public class Pawn extends Piece {
 			}
 			//kill 
 			else {
-				//if piece exists in 1 diagonal
-				if((gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'b')
+				//if white piece exists in 1 diagonal
+				if((gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'w')
 						&& (Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1)) {
 					return true;
 				}

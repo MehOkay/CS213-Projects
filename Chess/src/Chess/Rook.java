@@ -32,7 +32,7 @@ public class Rook extends Piece {
 	 * 
 	 * @return true if move is valid or false if not
 	 */
-	public boolean check(Piece gameBoard[][], 
+	public boolean checkMove(Piece gameBoard[][], 
 			int x1, int y1, 
 			int x2, int y2) {
 		

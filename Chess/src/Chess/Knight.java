@@ -14,7 +14,7 @@ public class Knight extends Piece {
 		return this.type;
 	}
 	
-	public boolean check(Piece gameBoard[][], 
+	public boolean checkMove(Piece gameBoard[][], 
 			int x1, int y1, 
 			int x2, int y2) {
 		
