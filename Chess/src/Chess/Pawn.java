@@ -10,7 +10,7 @@ import java.math.*;
 public class Pawn extends Piece {
 	private char team;
 	private String type = "Pawn";
-	boolean enPass;
+	public boolean enPass;
 	
 	public Pawn(char team) {
 		this.team = team;
@@ -25,7 +25,8 @@ public class Pawn extends Piece {
 
 	
 	/**
-	 * check() takes in the game board, current row, current column, new row, and new column as parameters and returns true if new position is a valid move for Rook
+	 * checkMove() takes in the game board, current row, current column, new row, 
+	 * and new column as parameters and returns true if new position is a valid move for Pawn
 	 * 
 	 * @param gameBoard is the game board
 	 * @param x1 is the current row
@@ -35,7 +36,7 @@ public class Pawn extends Piece {
 	 * 
 	 * @return true if move is valid or false if not
 	 */
-	public boolean check(Piece gameBoard[][], int x1, int y1, 
+	public boolean checkMove(Piece gameBoard[][], int x1, int y1, 
 			int x2, int y2) {
 		
 		//pawns cannot go backward

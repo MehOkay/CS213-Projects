@@ -22,7 +22,8 @@ public class Bishop extends Piece {
 	}
 	
 	/**
-	 * check() takes in the game board, current row, current column, new row, and new column as parameters and returns true if new position is a valid move for Bishop
+	 * checkMove() takes in the game board, current row, current column, new row, 
+	 * and new column as parameters and returns true if new position is a valid move for Bishop
 	 * 
 	 * @param gameBoard is the game board
 	 * @param x1 is the current row

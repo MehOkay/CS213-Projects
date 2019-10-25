@@ -24,7 +24,7 @@ public class Main {
 				}
 			}
 			else if(input.length() == 7) {
-				if(!Game.specialMove(input)) {
+				if(!Game.promotion(input)) {
 					System.out.println("Invalid move, try again\n");
 					continue;
 				}

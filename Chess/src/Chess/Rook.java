@@ -8,12 +8,13 @@ package Chess;
  */
 
 public class Rook extends Piece {
-	public char team;
-	public String type = "Rook";
-	
+	private char team;
+	private String type = "Rook";
+	private boolean hasMoved;
 	
 	public Rook(char team) {
 		this.team = team;
+		this.hasMoved = false;
 	}
 	public char getTeam() {
 		return this.team;
@@ -21,8 +22,12 @@ public class Rook extends Piece {
 	public String getType() {
 		return this.type;
 	}
+	public boolean getMoved() {
+		return this.hasMoved;
+	}
 	/**
-	 * check() takes in the game board, current row, current column, new row, and new column as parameters and returns true if new position is a valid move for Rook
+	 * checkMove() takes in the game board, current row, current column, new row, 
+	 * and new column as parameters and returns true if new position is a valid move for Rook
 	 * 
 	 * @param gameBoard is the game board
 	 * @param x1 is the current row
@@ -43,6 +48,7 @@ public class Rook extends Piece {
 			if(gameBoard[x2][y2] == null) {
 				
 				if(isPathEmpty(gameBoard, x1, y1, x2, y2)) {
+					this.hasMoved = true;
 					return true;
 				}
 				
@@ -61,6 +67,7 @@ public class Rook extends Piece {
 				
 				else {
 					if(isPathEmpty(gameBoard, x1, y1, x2, y2)) {
+						this.hasMoved = true;
 						return true;
 					}
 					

@@ -56,9 +56,19 @@ public class board {
 		if((x1 > 8 || x1 < 1) || (x2 > 8 || x2 < 1) ||
 				(y1 > 8 || y1 < 1) ||(y2 > 8 || y2 < 1) )
 			return false;
-		
+		//same spot
+		if(x1 == x2 && y1 == y2){
+			return false;
+		}
+		//castle
+		if((gameBoard[x1][y1].getType().equals("King") && 
+				gameBoard[x2][y2].getType().equals("Rook")) && 
+				gameBoard[x1][y2].getTeam() == gameBoard[x2][y2].getTeam()) {
+			
+		}
+
 		//Confirm Move
-		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
+		else if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
 			turns++;
@@ -68,7 +78,7 @@ public class board {
 			return false;
 	}
 	
-	public boolean specialMove(String move) {
+	public boolean promotion(String move) {
 		
 		turns++;
 		return true;
@@ -81,6 +91,7 @@ public class board {
 		return false;
 	}
 	
+	//Prints out current state of Board
 	public void printBoard() {
 		for(int x = 0; x < 8; x++) {
 			for(int y = 0; y < 8; y++) {
@@ -120,6 +131,11 @@ public class board {
 		System.out.print(" a  b  c  d  e  f  g  h ");
 	}
 	
+	/**
+	 * Translates the Y coordinate from char to int 
+	 * @param Y coordinate in char
+	 * @return Y coordinate in int
+	 */
 	public int yTran(char i) { 
 		switch (i) {
 			case 'a':return 0;
