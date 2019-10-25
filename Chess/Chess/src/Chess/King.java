@@ -1,10 +1,11 @@
 package Chess;
 
-public class Knight extends Piece {
+public class King extends Piece {
 	public char team;
-	public String type = "Knight";
-
-	public Knight(char team) {
+	public String type = "King";
+	boolean firstM = true;
+	
+	public King(char team) {
 		this.team = team;
 	}
 	public char getTeam() {
@@ -19,5 +20,4 @@ public class Knight extends Piece {
 			int x2, int y2) {
 		return true; 
 	}
-	
 }

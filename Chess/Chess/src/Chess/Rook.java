@@ -1,17 +1,18 @@
 package Chess;
 
 /**
- * The Bishop class is an extension of the Piece class and creates a Bishop piece.
+ * The Rook class is an extension of the Piece class and creates a Rook Piece.
  * @author Wesley Cheung
  * @author Dennis Yu
  *
  */
 
-public class Bishop extends Piece {
+public class Rook extends Piece {
 	public char team;
-	public String type = "Bishop";
+	public String type = "Rook";
+	boolean firstM = true;
 	
-	public Bishop(char team) {
+	public Rook(char team) {
 		this.team = team;
 	}
 	public char getTeam() {
@@ -20,9 +21,8 @@ public class Bishop extends Piece {
 	public String getType() {
 		return this.type;
 	}
-	
 	/**
-	 * check() takes in the game board, current row, current column, new row, and new column as parameters and returns true if new position is a valid move for Bishop
+	 * check() takes in the game board, current row, current column, new row, and new column as parameters and returns true if new position is a valid move for Rook
 	 * 
 	 * @param gameBoard is the game board
 	 * @param x1 is the current row
@@ -36,8 +36,8 @@ public class Bishop extends Piece {
 			int x1, int y1, 
 			int x2, int y2) {
 		
-		//checks if valid move for bishop
-		if( ((Math.abs(x2 - x1)) / (Math.abs(y1 - y2)) == 1) && !((x1 == x2) && (y1 == y2)) ) {
+		//check if valid move for a Rook
+		if((x1 == x2 || y1 == y2 ) && !((x1 == x2) && (y1 == y2))) {
 			
 			//check if new position is empty:
 			if(gameBoard[x2][y2] == null) {
@@ -54,7 +54,7 @@ public class Bishop extends Piece {
 			//new position is not empty
 			else {
 				
-				//checks if team of both pieces
+				//checks team of both pieces
 				if(gameBoard[x1][y1].getTeam() == gameBoard[x2][y2].getTeam()) {
 					return false;
 				}
@@ -71,14 +71,13 @@ public class Bishop extends Piece {
 			}
 		}
 		
-		//illegal move for bishop
 		else {
 			return false;
 		}
 	}
 	
 	/**
-	 * isPathEmpty() checks if the path is clear for the Bishop to move from its current position to the new position
+	 * isPathEmpty() checks if the path is clear for the Rook to move from its current position to the new position
 	 * @param gameBoard
 	 * @param x1
 	 * @param y1
@@ -88,29 +87,41 @@ public class Bishop extends Piece {
 	 * @return true if the path is clear otherwise false
 	 */
 	private boolean isPathEmpty(Piece gameBoard[][], int x1, int y1, int x2, int y2) {
-		int rowOffset, colOffset;
+		int offset;
 		
-		if(x1 < x2){
-			rowOffset = 1;
-		}else{
-			rowOffset = -1;
-		}
-		
-		if(y1 < y2){
-			colOffset = 1;
-		}else{
-			colOffset = -1;
-		}
-		
-		int y = y1 + colOffset;
-		for(int x = x1 + rowOffset; x != x2; x += rowOffset){
-			
-			if(gameBoard[x][y] != null){
-				return false;
+		if(x1 != x2){
+			if(x1 < x2){
+				offset = 1;
+			}else{
+				offset = -1;
 			}
 			
-			y += colOffset;
+			for(int x = x1 + offset; x != x2; x += offset){
+				//Go from currentRow to newRow, and check every space
+				if(gameBoard[x][y1] != null){
+					return false;
+				}
+			}
 		}
+		
+		//Now do the same for columns
+		if(y1 != y2){
+			if(y1 < y2){
+				offset = 1;
+			}else{
+				offset = -1;
+			}
+			
+			for(int y = y1 + offset; y != y2; y += offset){
+				
+				//Go from currentCol to newCol, and check every space
+				if(gameBoard[x1][y] != null){
+					return false;
+				}
+			}
+		}
+		
 		return true;
 	}
+	
 }

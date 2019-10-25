@@ -3,7 +3,8 @@ package Chess;
 public class Knight extends Piece {
 	public char team;
 	public String type = "Knight";
-
+	boolean firstM = true;
+	
 	public Knight(char team) {
 		this.team = team;
 	}

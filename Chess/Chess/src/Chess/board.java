@@ -43,7 +43,6 @@ public class board {
 		x2 = Math.abs(move.charAt(3));
 		y2 = yTran(move.charAt(4));
 		
-		//Checks if desired move is out of bounds
 		if((x1 > 8 || x1 < 1) || (x2 > 8 || x2 < 1) ||
 				(y1 > 8 || y1 < 1) ||(y2 > 8 || y2 < 1) )
 			return false;

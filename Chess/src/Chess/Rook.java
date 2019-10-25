@@ -10,7 +10,7 @@ package Chess;
 public class Rook extends Piece {
 	public char team;
 	public String type = "Rook";
-	boolean firstM = true;
+	
 	
 	public Rook(char team) {
 		this.team = team;

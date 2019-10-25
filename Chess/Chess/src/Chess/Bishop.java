@@ -10,6 +10,7 @@ package Chess;
 public class Bishop extends Piece {
 	public char team;
 	public String type = "Bishop";
+	boolean firstM = true;
 	
 	public Bishop(char team) {
 		this.team = team;
