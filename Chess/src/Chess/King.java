@@ -1,17 +1,22 @@
 package Chess;
 
 public class King extends Piece {
-	public char team;
-	public String type = "King";
+	private char team;
+	private String type = "King";
+	private boolean hasMoved;
 	
 	public King(char team) {
 		this.team = team;
+		this.hasMoved = false;
 	}
 	public char getTeam() {
 		return this.team;
 	}
 	public String getType() {
 		return this.type;
+	}
+	public boolean getMoved() {
+		return this.hasMoved;
 	}
 	
 	/**
@@ -26,9 +31,8 @@ public class King extends Piece {
 	 * 
 	 * @return true if move is valid or false if not
 	 */
-	public boolean checkMove(Piece gameBoard[][], 
-			int x1, int y1, 
-			int x2, int y2) {
+	public boolean checkMove(Piece gameBoard[][], int x1, int y1, int x2, int y2) {
+		
 		//king moving more than 1 space
 		if((Math.abs(x1-x2) != 1) || (Math.abs(y2-y1) != 1)) {
 			return false;
@@ -37,9 +41,16 @@ public class King extends Piece {
 		else if(gameBoard[x2][y2] != null)
 			if(gameBoard[x2][y2].getTeam() == gameBoard[x1][y1].getTeam())
 				return false;
-			else 
+			else {
+				this.hasMoved = true;
 				return true;
+			}
 		else 		
 			return true; 
 	}
+	
+	public boolean castle() {
+		
+	}
+	
 }
