@@ -4,6 +4,7 @@ public class board {
 	
 	private Piece[][] gameBoard = new Piece[8][8];
 	private boolean inPlay;
+	private int turns = 0;
 	//private String[][] shownBoard = new String[8][8];
 	
 	public board() {
@@ -34,7 +35,15 @@ public class board {
 		gameBoard[7][4] = new King('w');
 	}
 	
+	public boolean getInPlay() {
+		return this.inPlay;
+	}
+	public int getTurns() {
+		return this.turns;
+	}
+	
 	public boolean movePiece(String move) {
+		
 		if(move.length() > 5)
 			return false;
 		int x1, y1, x2, y2;
@@ -52,10 +61,24 @@ public class board {
 		if(gameBoard[x1][y1].check(gameBoard, x1, y1, x2,y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
+			turns++;
 			return true;
 		}
 		else
 			return false;
+	}
+	
+	public boolean specialMove(String move) {
+		
+		turns++;
+		return true;
+	}
+	
+	public boolean check(){
+		return true;
+	}
+	public boolean checkmate() {
+		return false;
 	}
 	
 	public void printBoard() {
