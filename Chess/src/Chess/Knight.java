@@ -19,21 +19,9 @@ public class Knight extends Piece {
 	public String getType() {
 		return this.type;
 	}
-	/**
-	 * checkMove() takes in the game board, current row, current column, new row, 
-	 * and new column as parameters and returns true if new position is a valid move for Knight
-	 * 
-	 * @param gameBoard is the game board
-	 * @param x1 is the current row
-	 * @param y1 is the current column
-	 * @param x2 is the new row
-	 * @param y2 is the new column
-	 * 
-	 * @return true if move is valid or false if not
-	 */
 	
 	/**
-	 * checMove() takes in the current position and new position of knight's move and returns true if it is a valid move for Knight. 
+	 * checkMove() takes in the current position and new position of knight's move and returns true if it is a valid move for Knight. 
 	 * This is different from checkHelper() which determines ALL possible knight moves. 
 	 * 
 	 * @param gameBoard is the current game board

@@ -25,6 +25,9 @@ public class Rook extends Piece {
 	public boolean getMoved() {
 		return this.hasMoved;
 	}
+	public void setMoved() {
+		this.hasMoved = true;
+	}
 	/**
 	 * checkMove() takes in the game board, current row, current column, new row, 
 	 * and new column as parameters and returns true if new position is a valid move for Rook

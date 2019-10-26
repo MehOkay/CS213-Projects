@@ -18,6 +18,9 @@ public class King extends Piece {
 	public boolean getMoved() {
 		return this.hasMoved;
 	}
+	public void setMoved() {
+		this.hasMoved = true; 
+	}
 	
 	/**
 	 * checkMove() takes in the game board, current row, current column, new row, 
@@ -42,15 +45,11 @@ public class King extends Piece {
 			if(gameBoard[x2][y2].getTeam() == gameBoard[x1][y1].getTeam())
 				return false;
 			else {
-				this.hasMoved = true;
+				this.setMoved();
 				return true;
 			}
 		else 		
 			return true; 
 	}
-	
-	public boolean castle() {
-		
-	}
-	
+
 }

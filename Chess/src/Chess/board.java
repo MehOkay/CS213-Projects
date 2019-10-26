@@ -64,11 +64,43 @@ public class board {
 		if((gameBoard[x1][y1].getType().equals("King") && 
 				gameBoard[x2][y2].getType().equals("Rook")) && 
 				gameBoard[x1][y2].getTeam() == gameBoard[x2][y2].getTeam()) {
-			
+			King king = (King)gameBoard[x1][y1];
+			Rook rook = (Rook)gameBoard[x2][y2];
+			if(king.getMoved() || rook.getMoved())
+				return false;
+			else if(y2 == 7) {
+				for(int i = 4; i< 7; i++) {
+					if(gameBoard[x1][i] != null)
+						return false;
+				}
+				king.setMoved();
+				rook.setMoved();
+				gameBoard[x2][6] = king;
+				gameBoard[x2][5] = rook;
+				gameBoard[x1][y1] = null;
+				gameBoard[x2][y2] = null;
+				turns++;
+				return true;
+				
+			}
+			else if(y2 == 0){
+				for(int i = 0; i < 4; i++) {
+					if(gameBoard[x1][i] != null)
+						return false;
+				}
+				king.setMoved();
+				rook.setMoved();
+				gameBoard[x1][2] = king;
+				gameBoard[x1][3] = rook;
+				gameBoard[x1][y1] = null;
+				gameBoard[x2][y2] = null;
+				turns++;
+				return true;
+			}
 		}
 
 		//Confirm Move
-		else if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
+		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
 			turns++;

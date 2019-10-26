@@ -4,7 +4,6 @@ import java.math.*;
  * The Pawn class is an extension of the Piece class and creates a Pawn Piece.
  * @author Wesley Cheung
  * @author Dennis Yu
- *
  */
 
 public class Pawn extends Piece {
