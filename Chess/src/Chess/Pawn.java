@@ -9,7 +9,7 @@ import java.math.*;
 public class Pawn extends Piece {
 	private char team;
 	private String type = "Pawn";
-	public boolean enPass;
+	private boolean enPass;
 	
 	public Pawn(char team) {
 		this.team = team;
@@ -21,7 +21,12 @@ public class Pawn extends Piece {
 	public String getType() {
 		return this.type;
 	}
-
+	public boolean getPas() {
+		return this.enPass;
+	}
+	public void setPas() {
+		enPass = false;
+	}
 	
 	/**
 	 * checkMove() takes in the game board, current row, current column, new row, 
@@ -50,6 +55,7 @@ public class Pawn extends Piece {
 		
 		//white 
 		if(gameBoard[x1][y1].getTeam() == 'w') {
+			
 			//move
 			if(y1 == y2) {
 				//Destination is open
@@ -80,14 +86,31 @@ public class Pawn extends Piece {
 			}
 			//kill 
 			else {
-				//if black piece exists in 1 diagonal
-				if((gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'b')
-						&& (Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1)) {
-					return true;
+				//pawns can only kill 1 diagonal away
+				if(Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1) {
+					//En passant
+					if(gameBoard[x2][y2] == null) {
+						Pawn pawn = (Pawn)gameBoard[x1][y2];
+						if(pawn.getPas()) {
+							pawn.setPas();
+							gameBoard[x2][y2] = pawn;
+							gameBoard[x1][y1] = null;
+							return true;
+						}
+						else {
+							return false;
+						}
+			
+					}
+					//normal kill
+					if(gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'b') {
+						return true;
+					}
+					else 
+						return false;
 				}
-				else 
-					return false;
 			}
+			return false;
 		}
 		//black
 		else{
@@ -119,36 +142,32 @@ public class Pawn extends Piece {
 			}
 			//kill 
 			else {
-				//if white piece exists in 1 diagonal
-				if((gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'w')
-						&& (Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1)) {
-					return true;
+				//pawns can only kill 1 diagonal away
+				if(Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1) {
+					//En passant
+					if(gameBoard[x2][y2] == null) {
+						Pawn pawn = (Pawn)gameBoard[x1][y2];
+						if(pawn.getPas()) {
+							pawn.setPas();
+							gameBoard[x2][y2] = pawn;
+							gameBoard[x1][y1] = null;
+							return true;
+						}
+						else {
+							return false;
+						}
+			
+					}
+					//normal kill
+					if(gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'w') {
+						return true;
+					}
+					else 
+						return false;
 				}
-				else 
-					return false;
 			}
 		}
+		return false;
 	}
-	
-	/**
-	 * Convert returns the new Piece to replace promoted Pawn
-	 * @param team is either B or 
-	 * @param promotion is the type of piece
-	 * @return new Piece
-	 */
-	
-	public Piece convert(char team, char promotion) {
-		switch(promotion) {
-		case 'R':
-			return new Rook(team); 
-		case 'N':
-			return new Knight(team);
-		case 'B':
-			return new Bishop(team);
-		default:
-			return new Queen(team);
-		}
-	}
-
 }
 

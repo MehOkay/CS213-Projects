@@ -5,7 +5,6 @@ public class board {
 	private Piece[][] gameBoard = new Piece[8][8];
 	private boolean inPlay;
 	private int turns = 0;
-	//private String[][] shownBoard = new String[8][8];
 	
 	public board() {
 		this.inPlay = true;
@@ -38,10 +37,17 @@ public class board {
 	public boolean getInPlay() {
 		return this.inPlay;
 	}
+	
 	public int getTurns() {
 		return this.turns;
 	}
 	
+	/**
+	 * Moves Piece onto new spot on board
+	 * incorporates castling
+	 * @param move - input of movement
+	 * @return whether movement successful or not
+	 */
 	public boolean movePiece(String move) {
 		
 		if(move.length() > 5)
@@ -60,14 +66,17 @@ public class board {
 		if(x1 == x2 && y1 == y2){
 			return false;
 		}
-		//castle
+		
+		//castle - only applies to rook and king of same color
 		if((gameBoard[x1][y1].getType().equals("King") && 
 				gameBoard[x2][y2].getType().equals("Rook")) && 
 				gameBoard[x1][y2].getTeam() == gameBoard[x2][y2].getTeam()) {
 			King king = (King)gameBoard[x1][y1];
 			Rook rook = (Rook)gameBoard[x2][y2];
+			//King or Rook already moved
 			if(king.getMoved() || rook.getMoved())
 				return false;
+			//right side
 			else if(y2 == 7) {
 				for(int i = 4; i< 7; i++) {
 					if(gameBoard[x1][i] != null)
@@ -83,6 +92,7 @@ public class board {
 				return true;
 				
 			}
+			//left side
 			else if(y2 == 0){
 				for(int i = 0; i < 4; i++) {
 					if(gameBoard[x1][i] != null)
@@ -98,7 +108,6 @@ public class board {
 				return true;
 			}
 		}
-
 		//Confirm Move
 		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
@@ -110,8 +119,51 @@ public class board {
 			return false;
 	}
 	
+	/**
+	 * Turns pawn into desired Piece
+	 * @param move - input of movement and Piece desired
+	 * @return whether promotion was successful
+	 */
 	public boolean promotion(String move) {
+		if(move.length() > 7)
+			return false;
+		int x1, y1, x2, y2;
+		char team, type = move.charAt(7);
+		x1 = Math.abs(move.charAt(0) - 56);
+		y1 = yTran(move.charAt(1));
+		x2 = Math.abs(move.charAt(3));
+		y2 = yTran(move.charAt(4));
 		
+		
+		//Checks if desired move is out of bounds
+		if((x1 > 8 || x1 < 1) || (x2 > 8 || x2 < 1) ||
+				(y1 > 8 || y1 < 1) ||(y2 > 8 || y2 < 1) )
+			return false;
+		//Check if legit piece
+		if(type != 'R' && type != 'N' && type != 'B' && type != 'Q')
+			return false;
+		//Piece must be a pawn
+		if(!gameBoard[x1][y1].getType().equals("Pawn"))
+			return false;
+		//movement can only be in a column
+		if(y1 != y2)
+			return false;
+		//piece infront of pawn
+		if(gameBoard[x2][y2] != null)
+			return false;
+		team = gameBoard[x1][y2].getTeam();
+		
+		switch(type) {
+		case 'R':
+			gameBoard[x2][y2] = new Rook(team); 
+		case 'N':
+			gameBoard[x2][y2] = new Knight(team);
+		case 'B':
+			gameBoard[x2][y2] = new Bishop(team);
+		default:
+			gameBoard[x2][y2] = new Queen(team);
+		}
+		gameBoard[x1][y1] = null;		
 		turns++;
 		return true;
 	}
@@ -166,6 +218,10 @@ public class board {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean checkmate() {
 		return false;
 	}
