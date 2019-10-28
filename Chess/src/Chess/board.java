@@ -5,10 +5,6 @@ public class board {
 	private Piece[][] gameBoard = new Piece[8][8];
 	private boolean inPlay;
 	private int turns = 0;
-<<<<<<< HEAD
-	//private String[][] shownBoard = new String[8][8];
-=======
->>>>>>> 552b1af11c0d1511cd3327d36a91cc3cd22d0a99
 	
 	public board() {
 		this.inPlay = true;
@@ -41,23 +37,18 @@ public class board {
 	public boolean getInPlay() {
 		return this.inPlay;
 	}
-<<<<<<< HEAD
-=======
-	
->>>>>>> 552b1af11c0d1511cd3327d36a91cc3cd22d0a99
+
 	public int getTurns() {
 		return this.turns;
 	}
 	
-<<<<<<< HEAD
-=======
+
 	/**
 	 * Moves Piece onto new spot on board
 	 * incorporates castling
 	 * @param move - input of movement
 	 * @return whether movement successful or not
 	 */
->>>>>>> 552b1af11c0d1511cd3327d36a91cc3cd22d0a99
 	public boolean movePiece(String move) {
 		
 		if(move.length() > 5)
@@ -129,10 +120,7 @@ public class board {
 			return false;
 	}
 	
-<<<<<<< HEAD
-	public boolean specialMove(String move) {
-		
-=======
+
 	/**
 	 * Turns pawn into desired Piece
 	 * @param move - input of movement and Piece desired
@@ -178,16 +166,10 @@ public class board {
 			gameBoard[x2][y2] = new Queen(team);
 		}
 		gameBoard[x1][y1] = null;		
->>>>>>> 552b1af11c0d1511cd3327d36a91cc3cd22d0a99
 		turns++;
 		return true;
 	}
 	
-<<<<<<< HEAD
-	public boolean check(){
-		return true;
-	}
-=======
 	/**
 	 * Checks to see if the king of the given color is in check. Needs to be called twice after every move
 	 * @param gameBoard
@@ -242,15 +224,11 @@ public class board {
 	 * 
 	 * @return
 	 */
->>>>>>> 552b1af11c0d1511cd3327d36a91cc3cd22d0a99
 	public boolean checkmate() {
 		return false;
 	}
-	
-<<<<<<< HEAD
-=======
+
 	//Prints out current state of Board
->>>>>>> 552b1af11c0d1511cd3327d36a91cc3cd22d0a99
 	public void printBoard() {
 		for(int x = 0; x < 8; x++) {
 			for(int y = 0; y < 8; y++) {
