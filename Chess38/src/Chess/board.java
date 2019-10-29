@@ -1,5 +1,7 @@
 package Chess;
 
+import java.util.ArrayList;
+
 public class board {
 	
 	private Piece[][] gameBoard = new Piece[8][8];
@@ -224,7 +226,22 @@ public class board {
 	 * 
 	 * @return
 	 */
-	public boolean checkmate() {
+	public boolean checkmate(Piece gameBoard[][], char team) {
+		ArrayList<int[]> possiblemoves = new ArrayList<int[]>();
+		Piece[][] tempBoard = gameBoard.clone();
+		
+		int[] kingPos = getKingPosition(gameBoard, team);
+		
+		int[] topleft = new int[]{kingPos[0] - 1, kingPos[1] - 1 };
+		int[] top = new int[]{kingPos[0] - 1, kingPos[1] };
+		int[] topright = new int[]{kingPos[0] - 1, kingPos[1] + 1 };
+		int[] right = new int[]{kingPos[0], kingPos[1] + 1 };
+		int[] bottomright = new int[]{kingPos[0] + 1, kingPos[1] + 1 };
+		int[] bottom = new int[]{kingPos[0] + 1, kingPos[1] };
+		int[] bottomleft = new int[]{kingPos[0] + 1, kingPos[1] - 1 };;
+		int[] left = new int[]{kingPos[0], kingPos[1] - 1 };
+		
+				
 		return false;
 	}
 
