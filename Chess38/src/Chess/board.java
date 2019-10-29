@@ -232,6 +232,7 @@ public class board {
 		
 		int[] kingPos = getKingPosition(gameBoard, team);
 		
+		//calculate possible moves
 		int[] topleft = new int[]{kingPos[0] - 1, kingPos[1] - 1 };
 		int[] top = new int[]{kingPos[0] - 1, kingPos[1] };
 		int[] topright = new int[]{kingPos[0] - 1, kingPos[1] + 1 };
@@ -241,7 +242,103 @@ public class board {
 		int[] bottomleft = new int[]{kingPos[0] + 1, kingPos[1] - 1 };;
 		int[] left = new int[]{kingPos[0], kingPos[1] - 1 };
 		
-				
+
+		if(isCoordWithinBounds(topleft[0], topleft[1]) == true) {
+			if(gameBoard[topleft[0]][topleft[1]] != null) {
+				if(gameBoard[topleft[0]][topleft[1]].getTeam() != team) {
+					possiblemoves.add(topleft);
+				}
+			}
+			else if(gameBoard[topleft[0]][topleft[1]] == null) {
+				possiblemoves.add(topleft);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(top[0], top[1]) == true) {
+			if(gameBoard[top[0]][top[1]] != null) {
+				if(gameBoard[top[0]][top[1]].getTeam() != team) {
+					possiblemoves.add(top);
+				}
+			}
+			else if(gameBoard[top[0]][top[1]] == null) {
+				possiblemoves.add(top);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(topright[0], topright[1]) == true) {
+			if(gameBoard[topright[0]][topright[1]] != null) {
+				if(gameBoard[topright[0]][topright[1]].getTeam() != team) {
+					possiblemoves.add(topright);
+				}
+			}
+			else if(gameBoard[topright[0]][topright[1]] == null) {
+				possiblemoves.add(topright);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(right[0], right[1]) == true) {
+			if(gameBoard[right[0]][right[1]] != null) {
+				if(gameBoard[right[0]][right[1]].getTeam() != team) {
+					possiblemoves.add(right);
+				}
+			}
+			else if(gameBoard[right[0]][right[1]] == null) {
+				possiblemoves.add(right);
+			}
+
+		}
+		if(isCoordWithinBounds(bottomright[0], bottomright[1]) == true) {
+			if(gameBoard[bottomright[0]][bottomright[1]] != null) {
+				if(gameBoard[bottomright[0]][bottomright[1]].getTeam() != team) {
+					possiblemoves.add(bottomright);
+				}
+			}
+			else if(gameBoard[bottomright[0]][bottomright[1]] == null) {
+				possiblemoves.add(bottomright);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(bottom[0], bottom[1]) == true) {
+			if(gameBoard[bottom[0]][bottom[1]] != null) {
+				if(gameBoard[bottom[0]][bottom[1]].getTeam() != team) {
+					possiblemoves.add(bottom);
+				}
+			}
+			else if(gameBoard[bottom[0]][bottom[1]] == null) {
+				possiblemoves.add(bottom);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(bottomleft[0], bottomleft[1]) == true) {
+			if(gameBoard[bottomleft[0]][bottomleft[1]] != null) {
+				if(gameBoard[bottomleft[0]][bottomleft[1]].getTeam() != team) {
+					possiblemoves.add(bottomleft);
+				}
+			}
+			else if(gameBoard[bottomleft[0]][bottomleft[1]] == null) {
+				possiblemoves.add(bottomleft);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(left[0], left[1]) == true) {
+			if(gameBoard[left[0]][left[1]] != null) {
+				if(gameBoard[left[0]][left[1]].getTeam() != team) {
+					possiblemoves.add(left);
+				}
+			}
+			else if(gameBoard[left[0]][left[1]] == null) {
+				possiblemoves.add(left);
+			}
+
+		}
+		
+		
 		return false;
 	}
 
@@ -331,5 +428,14 @@ public class board {
 		kingPos[1] = kingCol;
 		
 		return kingPos;
+	}
+	
+	private boolean isCoordWithinBounds(int x, int y) {
+		if ( x >= 0 && x <= 7 ) {
+			if ( y >=0 && y <= 7) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
