@@ -228,7 +228,7 @@ public class board {
 	 */
 	public boolean checkmate(Piece gameBoard[][], char team) {
 		ArrayList<int[]> possiblemoves = new ArrayList<int[]>();
-		Piece[][] tempBoard = gameBoard.clone();
+		//Piece[][] tempBoard = gameBoard.clone();
 		
 		int[] kingPos = getKingPosition(gameBoard, team);
 		
@@ -243,6 +243,7 @@ public class board {
 		int[] left = new int[]{kingPos[0], kingPos[1] - 1 };
 		
 
+		//TODO: wait for Dennis to change movePiece so I can adjust the conditions of adding possible moves
 		if(isCoordWithinBounds(topleft[0], topleft[1]) == true) {
 			if(gameBoard[topleft[0]][topleft[1]] != null) {
 				if(gameBoard[topleft[0]][topleft[1]].getTeam() != team) {
@@ -254,7 +255,7 @@ public class board {
 			}
 
 		}
-		
+	
 		if(isCoordWithinBounds(top[0], top[1]) == true) {
 			if(gameBoard[top[0]][top[1]] != null) {
 				if(gameBoard[top[0]][top[1]].getTeam() != team) {
@@ -338,8 +339,58 @@ public class board {
 
 		}
 		
+		Piece kingPiece = gameBoard[kingPos[0]][kingPos[1]]; //temporarily holds king piece
+		//Piece destinationPiece = null;                       //will be used to hold pieces if they occupy the possible move's destination
+		            											//temporarily remove king piece
 		
-		return false;
+
+		
+			for(int i = 0; i <possiblemoves.size(); i++) {
+				
+				int destinationRow = possiblemoves.get(i)[0];
+				int destinationCol = possiblemoves.get(i)[1];
+				
+				//move king to possible destination on gameboard clone
+				Piece[][] tempBoard = gameBoard.clone();
+				tempBoard[kingPos[0]][kingPos[1]] = null;
+				tempBoard[destinationRow][destinationCol] = kingPiece;
+				
+				//see if king is in check at the new destination
+				if( !(check(tempBoard, 'w' )) ) {
+					return false; //there is at least one escape for king, not checkmate yet!
+				}
+				
+				
+				
+				/*
+				if( tempBoard[destinationRow][destinationCol] != null) {
+					if( tempBoard[destinationRow][destinationCol].getTeam() == 'b') {
+						
+						//move king piece to destination
+						//destinationPiece = tempBoard[destinationRow][destinationCol]; //temporarily hold destination piece
+						tempBoard[kingPos[0]][kingPos[1]] = null;
+						tempBoard[destinationRow][destinationCol] = kingPiece;
+						//tempBoard[kingPos[0]][kingPos[1]] = kingPiece;
+						
+						//see if king is still in check despite moving to destination
+						if( !(check(tempBoard, 'w' )) ) {
+							return false; //there is at least one escape for king, not checkmate yet!
+						}
+						
+					}
+				}
+				else if( gameBoard[destinationRow][destinationCol] == null) {
+					
+				} */
+			}
+		
+		
+	
+		
+		
+		
+		
+		return true; // no escape routes, checkmate!
 	}
 
 	//Prints out current state of Board
