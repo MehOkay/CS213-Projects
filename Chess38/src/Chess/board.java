@@ -1,5 +1,7 @@
 package Chess;
 
+import java.util.ArrayList;
+
 public class board {
 	
 	private Piece[][] gameBoard = new Piece[8][8];
@@ -288,8 +290,171 @@ public class board {
 	 * 
 	 * @return
 	 */
-	public boolean checkmate() {
-		return false;
+	public boolean checkmate(Piece gameBoard[][], char team) {
+		ArrayList<int[]> possiblemoves = new ArrayList<int[]>();
+		//Piece[][] tempBoard = gameBoard.clone();
+		
+		int[] kingPos = getKingPosition(gameBoard, team);
+		
+		//calculate possible moves
+		int[] topleft = new int[]{kingPos[0] - 1, kingPos[1] - 1 };
+		int[] top = new int[]{kingPos[0] - 1, kingPos[1] };
+		int[] topright = new int[]{kingPos[0] - 1, kingPos[1] + 1 };
+		int[] right = new int[]{kingPos[0], kingPos[1] + 1 };
+		int[] bottomright = new int[]{kingPos[0] + 1, kingPos[1] + 1 };
+		int[] bottom = new int[]{kingPos[0] + 1, kingPos[1] };
+		int[] bottomleft = new int[]{kingPos[0] + 1, kingPos[1] - 1 };;
+		int[] left = new int[]{kingPos[0], kingPos[1] - 1 };
+		
+
+		//TODO: wait for Dennis to change movePiece so I can adjust the conditions of adding possible moves
+		if(isCoordWithinBounds(topleft[0], topleft[1]) == true) {
+			if(gameBoard[topleft[0]][topleft[1]] != null) {
+				if(gameBoard[topleft[0]][topleft[1]].getTeam() != team) {
+					possiblemoves.add(topleft);
+				}
+			}
+			else if(gameBoard[topleft[0]][topleft[1]] == null) {
+				possiblemoves.add(topleft);
+			}
+
+		}
+	
+		if(isCoordWithinBounds(top[0], top[1]) == true) {
+			if(gameBoard[top[0]][top[1]] != null) {
+				if(gameBoard[top[0]][top[1]].getTeam() != team) {
+					possiblemoves.add(top);
+				}
+			}
+			else if(gameBoard[top[0]][top[1]] == null) {
+				possiblemoves.add(top);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(topright[0], topright[1]) == true) {
+			if(gameBoard[topright[0]][topright[1]] != null) {
+				if(gameBoard[topright[0]][topright[1]].getTeam() != team) {
+					possiblemoves.add(topright);
+				}
+			}
+			else if(gameBoard[topright[0]][topright[1]] == null) {
+				possiblemoves.add(topright);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(right[0], right[1]) == true) {
+			if(gameBoard[right[0]][right[1]] != null) {
+				if(gameBoard[right[0]][right[1]].getTeam() != team) {
+					possiblemoves.add(right);
+				}
+			}
+			else if(gameBoard[right[0]][right[1]] == null) {
+				possiblemoves.add(right);
+			}
+
+		}
+		if(isCoordWithinBounds(bottomright[0], bottomright[1]) == true) {
+			if(gameBoard[bottomright[0]][bottomright[1]] != null) {
+				if(gameBoard[bottomright[0]][bottomright[1]].getTeam() != team) {
+					possiblemoves.add(bottomright);
+				}
+			}
+			else if(gameBoard[bottomright[0]][bottomright[1]] == null) {
+				possiblemoves.add(bottomright);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(bottom[0], bottom[1]) == true) {
+			if(gameBoard[bottom[0]][bottom[1]] != null) {
+				if(gameBoard[bottom[0]][bottom[1]].getTeam() != team) {
+					possiblemoves.add(bottom);
+				}
+			}
+			else if(gameBoard[bottom[0]][bottom[1]] == null) {
+				possiblemoves.add(bottom);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(bottomleft[0], bottomleft[1]) == true) {
+			if(gameBoard[bottomleft[0]][bottomleft[1]] != null) {
+				if(gameBoard[bottomleft[0]][bottomleft[1]].getTeam() != team) {
+					possiblemoves.add(bottomleft);
+				}
+			}
+			else if(gameBoard[bottomleft[0]][bottomleft[1]] == null) {
+				possiblemoves.add(bottomleft);
+			}
+
+		}
+		
+		if(isCoordWithinBounds(left[0], left[1]) == true) {
+			if(gameBoard[left[0]][left[1]] != null) {
+				if(gameBoard[left[0]][left[1]].getTeam() != team) {
+					possiblemoves.add(left);
+				}
+			}
+			else if(gameBoard[left[0]][left[1]] == null) {
+				possiblemoves.add(left);
+			}
+
+		}
+		
+		Piece kingPiece = gameBoard[kingPos[0]][kingPos[1]]; //temporarily holds king piece
+		//Piece destinationPiece = null;                       //will be used to hold pieces if they occupy the possible move's destination
+		            											//temporarily remove king piece
+		
+
+		
+			for(int i = 0; i <possiblemoves.size(); i++) {
+				
+				int destinationRow = possiblemoves.get(i)[0];
+				int destinationCol = possiblemoves.get(i)[1];
+				
+				//move king to possible destination on gameboard clone
+				Piece[][] tempBoard = gameBoard.clone();
+				tempBoard[kingPos[0]][kingPos[1]] = null;
+				tempBoard[destinationRow][destinationCol] = kingPiece;
+				
+				//see if king is in check at the new destination
+				if( !(check(tempBoard, 'w' )) ) {
+					return false; //there is at least one escape for king, not checkmate yet!
+				}
+				
+				
+				
+				/*
+				if( tempBoard[destinationRow][destinationCol] != null) {
+					if( tempBoard[destinationRow][destinationCol].getTeam() == 'b') {
+						
+						//move king piece to destination
+						//destinationPiece = tempBoard[destinationRow][destinationCol]; //temporarily hold destination piece
+						tempBoard[kingPos[0]][kingPos[1]] = null;
+						tempBoard[destinationRow][destinationCol] = kingPiece;
+						//tempBoard[kingPos[0]][kingPos[1]] = kingPiece;
+						
+						//see if king is still in check despite moving to destination
+						if( !(check(tempBoard, 'w' )) ) {
+							return false; //there is at least one escape for king, not checkmate yet!
+						}
+						
+					}
+				}
+				else if( gameBoard[destinationRow][destinationCol] == null) {
+					
+				} */
+			}
+		
+		
+	
+		
+		
+		
+		
+		return true; // no escape routes, checkmate!
 	}
 
 	//Prints out current state of Board
@@ -378,5 +543,14 @@ public class board {
 		kingPos[1] = kingCol;
 		
 		return kingPos;
+	}
+	
+	private boolean isCoordWithinBounds(int x, int y) {
+		if ( x >= 0 && x <= 7 ) {
+			if ( y >=0 && y <= 7) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
