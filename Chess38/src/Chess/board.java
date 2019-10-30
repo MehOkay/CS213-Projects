@@ -2,6 +2,12 @@ package Chess;
 
 import java.util.ArrayList;
 
+/**
+ * Board is a class used to hold all the chess pieces and is responsible for the actual movement of pieces.
+ * @author Wesley Cheung
+ * @author Dennis Yu
+ */
+
 public class board {
 	
 	private Piece[][] gameBoard = new Piece[8][8];
@@ -244,8 +250,8 @@ public class board {
 	
 	/**
 	 * Checks to see if the king of the given color is in check.
-	 * @param gameBoard
-	 * @param team
+	 * @param gameBoard is the current game board
+	 * @param team is the team that be determined if it is in check
 	 * @return boolean value corresponding to the king being in check
 	 */
 	
@@ -509,7 +515,7 @@ public class board {
 	
 	/**
 	 * Translates the Y coordinate from char to int 
-	 * @param Y coordinate in char
+	 * @param i is the Y coordinate in char
 	 * @return Y coordinate in int
 	 */
 	public int yTran(char i) { 

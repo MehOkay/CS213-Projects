@@ -1,5 +1,11 @@
 package Chess;
 
+/**
+ * Piece is an abstract class that all the chess pieces will extend. 
+ * @author Wesley Cheung
+ * @author Dennis Yu
+ *
+ */
 public abstract class Piece {
 	public String type;
 	public char team;

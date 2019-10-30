@@ -8,15 +8,36 @@ package Chess;
  */
 
 public class Bishop extends Piece {
+	
+	/**
+	 * team is the color team that this Bishop piece is on
+	 */
 	public char team;
+	
+	/**
+	 * type is the type of this chess piece
+	 */
 	public String type = "Bishop";
 	
+	/**
+	 * 
+	 * creates an instance of the Bishop class and sets the team to the input team
+	 * @param team is the team that the Bishop is on
+	 */
 	public Bishop(char team) {
 		this.team = team;
 	}
+	
+	/**
+	 * returns the team of a Bishop piece
+	 */
 	public char getTeam() {
 		return this.team;
 	}
+	
+	/**
+	 * returns the type of the Bishop piece
+	 */
 	public String getType() {
 		return this.type;
 	}

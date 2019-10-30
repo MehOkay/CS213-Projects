@@ -1,5 +1,10 @@
 package Chess;
 
+/**
+ * The King Class is an extension of Piece class and creates a King piece.
+ * @author Wesley Cheung
+ * @author Dennis Yu
+ */
 public class King extends Piece {
 	private char team;
 	private String type = "King";
