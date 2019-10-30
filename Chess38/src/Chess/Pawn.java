@@ -44,37 +44,44 @@ public class Pawn extends Piece {
 			int x2, int y2) {
 		
 		//pawns cannot go backward
-		if(gameBoard[x1][y1].getTeam() == 'w') {
-			if(x1 > x2)
+		if(gameBoard[x1][y1].getTeam() == 'b') {
+			if(x1 > x2) {
+				System.out.println("Pawn's can't go backward");
 				return false;
+			}
 		}
 		else{
-			if(x2 > x1)
+			if(x2 > x1) {
+				System.out.println("Pawn's can't go backward");
 				return false;
+			}
 		}
 		
 		//white 
 		if(gameBoard[x1][y1].getTeam() == 'w') {
-			
 			//move
 			if(y1 == y2) {
 				//Destination is open
 				if(gameBoard[x2][y2] == null) {
 					//two forward
-					if(x1 - x2 == -2) {
+					if(x1 - x2 == 2) {
 						//can only move 2 from first row
 						if(x1 == 6) {
 							//nothing in between
-							if(gameBoard[x2-1][y2] == null) {
+							if(gameBoard[x2+1][y2] == null) {
 								this.enPass = true;
 								return true;
 							}
-							else return false;
+							else {
+								System.out.println("Piece in the way");
+								return false;}
 						}
-						else return false;
+						else {
+							System.out.println("Pawn has already moved");
+							return false;}
 					}
 					//1 forward
-					else if(x1 - x2 == -1) {
+					else if(x1 - x2 == 1) {
 						return true;
 					}
 					//more than 2 forward
@@ -88,20 +95,6 @@ public class Pawn extends Piece {
 			else {
 				//pawns can only kill 1 diagonal away
 				if(Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1) {
-					//En passant
-					if(gameBoard[x2][y2] == null) {
-						Pawn pawn = (Pawn)gameBoard[x1][y2];
-						if(pawn.getPas()) {
-							pawn.setPas();
-							gameBoard[x2][y2] = pawn;
-							gameBoard[x1][y1] = null;
-							return true;
-						}
-						else {
-							return false;
-						}
-			
-					}
 					//normal kill
 					if(gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'b') {
 						return true;
@@ -118,46 +111,40 @@ public class Pawn extends Piece {
 				//Destination is open
 				if(gameBoard[x2][y2] == null) {
 					//two forward
-					if(x1 - x2 == 2) {
+					if(x1 - x2 == -2) {
 						//first row
 						if(x1 == 1) {
 							//nothing in between
-							if(gameBoard[x2+1][y2] == null) {
+							if(gameBoard[x2-1][y2] == null) {
 								this.enPass = true;
 								return true;
 							}
-							else return false;
+							else {System.out.println("Piece in the way");
+								return false;
+							}
 						}
-						else return false;
+						else {System.out.println("Pawn has already moved");
+						return false;
 					}
-					else if(x1 - x2 == 1) {
+					}
+					else if(x1 - x2 == -1) {
 						return true;
 					}
 					//more than 2 forward
 					else
+						{System.out.println("b4");
 						return false;
+					}
 				}
 				//path blocked
-				else return false;
+				else {System.out.println("b5");
+				return false;
+			}
 			}
 			//kill 
 			else {
 				//pawns can only kill 1 diagonal away
 				if(Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1) {
-					//En passant
-					if(gameBoard[x2][y2] == null) {
-						Pawn pawn = (Pawn)gameBoard[x1][y2];
-						if(pawn.getPas()) {
-							pawn.setPas();
-							gameBoard[x2][y2] = pawn;
-							gameBoard[x1][y1] = null;
-							return true;
-						}
-						else {
-							return false;
-						}
-			
-					}
 					//normal kill
 					if(gameBoard[x2][y2] != null && gameBoard[x2][y2].getTeam() == 'w') {
 						return true;

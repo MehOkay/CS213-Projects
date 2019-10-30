@@ -17,23 +17,22 @@ public class Chess {
 		Scanner in = new Scanner(System.in);
 		while(Game.getInPlay()) {
 			String input;
-			if(Game.getTurns() % 2 == 1) 
-				System.out.println("White's Move: ");
+			if(Game.getTurns() % 2 == 0) 
+				System.out.println("\n\nWhite's Move: ");
 			
 			else
-				System.out.println("Black's Move: ");
+				System.out.println("\n\nBlack's Move: ");
 			input = in.nextLine();
 			if(input.length() == 5) {
 				if(!Game.movePiece(input)) {
-
-					System.out.println("Invalid move, try again\n");
+					System.out.println("Invalid move, try again");
 					continue;
 				}
 			}
 			else if(input.length() == 7) {
 
 				if(!Game.promotion(input)) {
-					System.out.println("Invalid move, try again\n");
+					System.out.println("Invalid move, try again");
 					continue;
 				}
 			} 
