@@ -13,10 +13,14 @@ public class board {
 		this.setBoard();
 	}
 	
+	public Piece[][] getGameBoard(){
+		return this.gameBoard;
+	}
+	
 	public void setBoard() {		
 		for(int i = 0; i < 8; i++) {
 			gameBoard[1][i] = new Pawn('b');
-			gameBoard[6][i] = new Pawn('w'); 
+			gameBoard[6][i] = new Pawn('w');
 		}
 		gameBoard[0][0] = new Rook('b');
 		gameBoard[0][7] = new Rook('b');
@@ -34,9 +38,11 @@ public class board {
 		gameBoard[7][5] = new Bishop('w');
 		gameBoard[7][3] = new Queen('w');
 		gameBoard[7][4] = new King('w');
+
 		for(int x = 2; x < 6; x++)
 			for(int y = 1; y < 8; y++)
 				gameBoard[x][y] = null;
+
 	}
 	
 	public boolean getInPlay() {
@@ -237,7 +243,7 @@ public class board {
 	}
 	
 	/**
-	 * Checks to see if the king of the given color is in check. Needs to be called twice after every move
+	 * Checks to see if the king of the given color is in check.
 	 * @param gameBoard
 	 * @param team
 	 * @return boolean value corresponding to the king being in check
@@ -287,12 +293,15 @@ public class board {
 	}
 	
 	/**
+	 * checkmate() returns true if the king of a specified team is in checkmate
 	 * 
-	 * @return
+	 * @param gameBoard is the current game board
+	 * @param team is the team that will be checked if it's in checkamte
+	 * @return true if king is in checkmate otherwise false
 	 */
 	public boolean checkmate(Piece gameBoard[][], char team) {
 		ArrayList<int[]> possiblemoves = new ArrayList<int[]>();
-		//Piece[][] tempBoard = gameBoard.clone();
+
 		
 		int[] kingPos = getKingPosition(gameBoard, team);
 		
@@ -402,12 +411,10 @@ public class board {
 			}
 
 		}
+
 		
 		Piece kingPiece = gameBoard[kingPos[0]][kingPos[1]]; //temporarily holds king piece
-		//Piece destinationPiece = null;                       //will be used to hold pieces if they occupy the possible move's destination
-		            											//temporarily remove king piece
-		
-
+		Piece destinationPiece = null;                       //will be used to hold pieces if they occupy the possible move's destination		            										
 		
 			for(int i = 0; i <possiblemoves.size(); i++) {
 				
@@ -415,45 +422,48 @@ public class board {
 				int destinationCol = possiblemoves.get(i)[1];
 				
 				//move king to possible destination on gameboard clone
-				Piece[][] tempBoard = gameBoard.clone();
-				tempBoard[kingPos[0]][kingPos[1]] = null;
-				tempBoard[destinationRow][destinationCol] = kingPiece;
+				//Piece[][] tempBoard = gameBoard;
 				
-				//see if king is in check at the new destination
-				if( !(check(tempBoard, 'w' )) ) {
-					return false; //there is at least one escape for king, not checkmate yet!
-				}
-				
-				
-				
-				/*
-				if( tempBoard[destinationRow][destinationCol] != null) {
-					if( tempBoard[destinationRow][destinationCol].getTeam() == 'b') {
-						
-						//move king piece to destination
-						//destinationPiece = tempBoard[destinationRow][destinationCol]; //temporarily hold destination piece
-						tempBoard[kingPos[0]][kingPos[1]] = null;
-						tempBoard[destinationRow][destinationCol] = kingPiece;
-						//tempBoard[kingPos[0]][kingPos[1]] = kingPiece;
-						
-						//see if king is still in check despite moving to destination
-						if( !(check(tempBoard, 'w' )) ) {
-							return false; //there is at least one escape for king, not checkmate yet!
-						}
-						
-					}
-				}
-				else if( gameBoard[destinationRow][destinationCol] == null) {
+				if(gameBoard[destinationRow][destinationCol] == null) {
+					destinationPiece = gameBoard[destinationRow][destinationCol];
+					gameBoard[destinationRow][destinationCol] = kingPiece;
+					gameBoard[kingPos[0]][kingPos[1]] = null;
 					
-				} */
+					
+					if(!(check(gameBoard, team))) {
+						
+						//return king
+						//return destination piece
+						
+						gameBoard[kingPos[0]][kingPos[1]] = kingPiece;
+						gameBoard[destinationRow][destinationCol] = destinationPiece;
+						return false;
+					}
+					gameBoard[destinationRow][destinationCol] = destinationPiece;
+					gameBoard[kingPos[0]][kingPos[1]] = kingPiece;
+				}
+				
+				else if(gameBoard[destinationRow][destinationCol].getTeam() != team) {					
+					destinationPiece = gameBoard[destinationRow][destinationCol];
+					gameBoard[destinationRow][destinationCol] = kingPiece;
+					gameBoard[kingPos[0]][kingPos[1]] = null;
+					
+					
+					if(!(check(gameBoard, team))) {
+						
+						//return king
+						//return destination piece
+						gameBoard[kingPos[0]][kingPos[1]] = kingPiece;
+						gameBoard[destinationRow][destinationCol] = destinationPiece;
+						return false;
+					}
+					gameBoard[destinationRow][destinationCol] = destinationPiece;
+					gameBoard[kingPos[0]][kingPos[1]] = kingPiece;
+				}
+				else {
+					continue;
+				}
 			}
-		
-		
-	
-		
-		
-		
-		
 		return true; // no escape routes, checkmate!
 	}
 
