@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 public class Chess {
 
+	/**
+	 * This method is the driving method for running the full game
+	 * 
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		board Game = new board(); 

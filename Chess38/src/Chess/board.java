@@ -14,15 +14,25 @@ public class board {
 	private boolean inPlay;
 	private int turns = 0;
 	
+	/**
+	 * creates a new instance of the Board class
+	 */
 	public board() {
 		this.inPlay = true;
 		this.setBoard();
 	}
 	
+	/**
+	 * 
+	 * @return returns the Piece[][] game board
+	 */
 	public Piece[][] getGameBoard(){
 		return this.gameBoard;
 	}
 	
+	/**
+	 * initializes the board pieces to their starting positions
+	 */
 	public void setBoard() {		
 		for(int i = 0; i < 8; i++) {
 			gameBoard[1][i] = new Pawn('b');
@@ -472,7 +482,10 @@ public class board {
 		return true; // no escape routes, checkmate!
 	}
 
-	//Prints out current state of Board
+	/**
+	 * Prints out current state of game board
+	 * 
+	 */
 	public void printBoard() { 
 		System.out.println();
 		for(int x = 0; x < 8; x++) {
@@ -561,6 +574,9 @@ public class board {
 		return kingPos;
 	}
 	
+	/**
+	 * used in determining checkmate
+	 */
 	private boolean isCoordWithinBounds(int x, int y) {
 		if ( x >= 0 && x <= 7 ) {
 			if ( y >=0 && y <= 7) {
