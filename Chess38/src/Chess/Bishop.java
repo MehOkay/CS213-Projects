@@ -38,7 +38,7 @@ public class Bishop extends Piece {
 			int x2, int y2) {
 		
 		//checks if valid move for bishop
-		if( ((Math.abs(x2 - x1)) / (Math.abs(y1 - y2)) == 1) && !((x1 == x2) && (y1 == y2)) ) {
+		if( (Math.abs(x2 - x1) == Math.abs(y2 - y1)) && !((x1 == x2) && (y1 == y2)) ) {
 			
 			//check if new position is empty:
 			if(gameBoard[x2][y2] == null) {
