@@ -26,7 +26,7 @@ public class board {
 	public void setBoard() {		
 		for(int i = 0; i < 8; i++) {
 			gameBoard[1][i] = new Pawn('b');
-			gameBoard[6][i] = new Pawn('w');
+			gameBoard[6][i] = new Pawn('w'); 
 		}
 		gameBoard[0][0] = new Rook('b');
 		gameBoard[0][7] = new Rook('b');
@@ -48,7 +48,6 @@ public class board {
 		for(int x = 2; x < 6; x++)
 			for(int y = 1; y < 8; y++)
 				gameBoard[x][y] = null;
-
 	}
 	
 	public boolean getInPlay() {
@@ -80,23 +79,23 @@ public class board {
 		x2 = 7 - (move.charAt(4) - 49);
 		y2 = yTran(move.charAt(3));
 		
-		//System.out.println(x1 + " " + y1 + "   " + x2 + " " + y2);
+		
 		//Checks if desired move is out of bounds
 		if((x1 > 8 || x1 < 0) || (x2 > 8 || x2 < 0) ||
 				(y1 > 8 || y1 < 0) || (y2 > 8 || y2 < 0)) {
-			System.out.println("out of bounds");
+			//System.out.println("out of bounds");
 			return false;
 		}
 		
 		//if no piece is being moved
 		if(this.isEmpty(x1, y1)) {
-			System.out.println("empty");
+			//System.out.println("empty");
 			return false;
 		}
 		
 		//same spot
 		if(x1 == x2 && y1 == y2){
-			System.out.println("same");
+			//System.out.println("same");
 			return false;
 		}
 		
@@ -140,19 +139,19 @@ public class board {
 		if((gameBoard[x1][y1].getType().equals("King") && 
 				gameBoard[x2][y2].getType().equals("Rook")) && 
 				gameBoard[x1][y2].getTeam() == gameBoard[x2][y2].getTeam()) {
-			System.out.println("in");
+			//System.out.println("in");
 			King king = (King)gameBoard[x1][y1];
 			Rook rook = (Rook)gameBoard[x2][y2];
 			//King or Rook already moved
 			if(king.getMoved() || rook.getMoved()) {
-				System.out.println("here1");
+				//System.out.println("here1");
 				return false;}
 			//right side
 			else if(y2 == 7) {
 				//Checks if path is clear
 				for(int i = 5; i < 7; i++) {
 					if(gameBoard[x1][i] != null) {
-						System.out.println("here2");
+					//	System.out.println("here2");
 						return false;
 					}
 				}
@@ -171,7 +170,7 @@ public class board {
 				//Checks if path is clear
 				for(int i = 1; i < 4; i++) {
 					if(gameBoard[x1][i] != null) {
-						System.out.println("here3");
+						//System.out.println("here3");
 						return false;
 					}
 				}
@@ -194,7 +193,7 @@ public class board {
 			return true;
 		}
 		else {
-			System.out.println("Failed");
+			//System.out.println("Failed");
 			return false;
 		}
 	}
@@ -475,6 +474,7 @@ public class board {
 
 	//Prints out current state of Board
 	public void printBoard() { 
+		System.out.println();
 		for(int x = 0; x < 8; x++) {
 			for(int y = 0; y < 8; y++) {
 				if(gameBoard[x][y] == null) {
@@ -510,7 +510,7 @@ public class board {
 			}
 			System.out.print(8 - x + "\n");
 		}
-		System.out.print(" a  b  c  d  e  f  g  h ");
+		System.out.println(" a  b  c  d  e  f  g  h ");
 	}
 	
 	/**

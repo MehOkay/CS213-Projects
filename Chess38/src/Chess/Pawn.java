@@ -46,13 +46,13 @@ public class Pawn extends Piece {
 		//pawns cannot go backward
 		if(gameBoard[x1][y1].getTeam() == 'b') {
 			if(x1 > x2) {
-				System.out.println("Pawn's can't go backward");
+				//System.out.println("Pawn's can't go backward");
 				return false;
 			}
 		}
 		else{
 			if(x2 > x1) {
-				System.out.println("Pawn's can't go backward");
+				//System.out.println("Pawn's can't go backward");
 				return false;
 			}
 		}
@@ -73,11 +73,11 @@ public class Pawn extends Piece {
 								return true;
 							}
 							else {
-								System.out.println("Piece in the way");
+								//System.out.println("Piece in the way");
 								return false;}
 						}
 						else {
-							System.out.println("Pawn has already moved");
+							//System.out.println("Pawn has already moved");
 							return false;}
 					}
 					//1 forward
@@ -119,11 +119,11 @@ public class Pawn extends Piece {
 								this.enPass = true;
 								return true;
 							}
-							else {System.out.println("Piece in the way");
+							else {//System.out.println("Piece in the way");
 								return false;
 							}
 						}
-						else {System.out.println("Pawn has already moved");
+						else {//System.out.println("Pawn has already moved");
 						return false;
 					}
 					}
@@ -132,12 +132,12 @@ public class Pawn extends Piece {
 					}
 					//more than 2 forward
 					else
-						{System.out.println("b4");
+						{//System.out.println("b4");
 						return false;
 					}
 				}
 				//path blocked
-				else {System.out.println("b5");
+				else {//System.out.println("b5");
 				return false;
 			}
 			}

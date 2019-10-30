@@ -16,6 +16,7 @@ public class Chess {
 		Game.printBoard();
 		boolean isWhiteInCheck = false;
 		boolean isBlackInCheck = false;
+		boolean draw = false;
 		
 		Scanner in = new Scanner(System.in);
 		while(Game.getInPlay()) {
@@ -25,32 +26,57 @@ public class Chess {
 				if(isWhiteInCheck == true) {
 					System.out.println("\n\nCheck");
 				}
-				System.out.println("\n\nWhite's Move: ");
+				System.out.print("\nWhite's Move: ");
 			}
 			else {
 				if(isBlackInCheck == true) {
 					System.out.println("\n\nCheck");
 				}
-				System.out.println("\n\nBlack's Move: ");
+				System.out.print("\nBlack's Move: ");
 			}
 			input = in.nextLine();
+			if(input.equals("draw")) {
+				if(draw) {
+					System.out.println("draw");
+					return;
+				}
+				else {
+					System.out.println("Illegal move, try again");
+					continue;
+				}
+			}
+			draw = false;
 			if(input.length() == 5) {
 				if(!Game.movePiece(input)) {
-					System.out.println("Invalid move, try again");
+					System.out.println("Illegal move, try again");
 					continue;
 				}
 			}
 			else if(input.length() == 7) {
 
 				if(!Game.promotion(input)) {
-					System.out.println("Invalid move, try again");
+					System.out.println("Illegal move, try again");
 					continue;
 				}
 			} 
+			else if(input.equals("resign")){
+				if(Game.getTurns() % 2 == 0)
+					System.out.println("Black wins!");
+				else
+					System.out.println("White wins!");
+				return;
+			}
+			else if(input.length() == 11) {
+				if(input.substring(6).equals("draw?")) {
+					draw = true;
+					if(!Game.movePiece(input.substring(0,5))) {
+						System.out.println("Illegal move, try again");
+						continue;
+					}					
+				}
+			}
 			else {
-
-				System.out.println("Invalid move,try again\n");
-
+				System.out.println("Illegal move, try again\n");
 				continue;
 			}
 			
@@ -82,8 +108,8 @@ public class Chess {
 					isBlackInCheck = false;
 				}
 			}
-			
 		}
 	}
 
 }
+
