@@ -1,7 +1,5 @@
 package Chess;
 
-import java.util.ArrayList;
-
 public class board {
 	
 	private Piece[][] gameBoard = new Piece[8][8];
@@ -34,17 +32,23 @@ public class board {
 		gameBoard[7][5] = new Bishop('w');
 		gameBoard[7][3] = new Queen('w');
 		gameBoard[7][4] = new King('w');
+		for(int x = 2; x < 6; x++)
+			for(int y = 1; y < 8; y++)
+				gameBoard[x][y] = null;
 	}
 	
 	public boolean getInPlay() {
 		return this.inPlay;
 	}
-
+	
 	public int getTurns() {
 		return this.turns;
 	}
 	
-
+	public boolean isEmpty(int x, int y) {
+		return gameBoard[x][y] == null;
+	}
+	
 	/**
 	 * Moves Piece onto new spot on board
 	 * incorporates castling
@@ -55,35 +59,88 @@ public class board {
 		
 		if(move.length() > 5)
 			return false;
-		int x1, y1, x2, y2;
-		x1 = Math.abs(move.charAt(0) - 56);
-		y1 = yTran(move.charAt(1));
-		x2 = Math.abs(move.charAt(3));
-		y2 = yTran(move.charAt(4));
 		
+		int x1, y1, x2, y2;
+		x1 = 7 - (move.charAt(1) - 49);
+		y1 = yTran(move.charAt(0));
+		x2 = 7 - (move.charAt(4) - 49);
+		y2 = yTran(move.charAt(3));
+		
+		//System.out.println(x1 + " " + y1 + "   " + x2 + " " + y2);
 		//Checks if desired move is out of bounds
-		if((x1 > 8 || x1 < 1) || (x2 > 8 || x2 < 1) ||
-				(y1 > 8 || y1 < 1) ||(y2 > 8 || y2 < 1) )
-			return false;
-		//same spot
-		if(x1 == x2 && y1 == y2){
+		if((x1 > 8 || x1 < 0) || (x2 > 8 || x2 < 0) ||
+				(y1 > 8 || y1 < 0) || (y2 > 8 || y2 < 0)) {
+			System.out.println("out of bounds");
 			return false;
 		}
 		
-		//castle - only applies to rook and king of same color
+		//if no piece is being moved
+		if(this.isEmpty(x1, y1)) {
+			System.out.println("empty");
+			return false;
+		}
+		
+		//same spot
+		if(x1 == x2 && y1 == y2){
+			System.out.println("same");
+			return false;
+		}
+		
+		/*En passant
+		 * Conditions 
+		 * 	first piece must be Pawn 
+		 * 	movement must be 1 diagonal
+		 * 	space must be empty
+		 * 	second piece must be pawn 
+		 * 	second piece must be next to First
+		 * 	must have enPass Enabled
+		 *  
+		 */
+		if(gameBoard[x1][y1].getType().equals("Pawn") && (Math.abs(y1-y2) == 1 && Math.abs(x1-x2) == 1) &&
+				gameBoard[x2][y2] == null && gameBoard[x1][y2] != null &&
+				gameBoard[x1][y2].getType().equals("Pawn")) {
+			Pawn pawn = (Pawn)gameBoard[x1][y2];
+			if(!pawn.getPas())
+				return false;
+			else {
+				if((turns % 2 == 0 && gameBoard[x1][y1].getTeam() == 'w') ||
+					(turns % 2 == 1 && gameBoard[x1][y1].getTeam() == 'b'))
+				gameBoard[x2][y2] = gameBoard[x1][y1];
+				gameBoard[x1][y2] = null;
+				gameBoard[x1][y1] = null;
+				turns++;
+				return true;
+			}
+		}			
+		
+		
+		/*Castle - only applies to rook and king of same color
+		 * Conditions
+		 * 	first Piece must be a King
+		 *  second Piece must be a Rook
+		 *  they must both be the same Color
+		 *  Both Pieces cannot be Moved prior to castle
+		 *  not Pieces can be in between them
+		*/
+		//King, Rook, Same color
 		if((gameBoard[x1][y1].getType().equals("King") && 
 				gameBoard[x2][y2].getType().equals("Rook")) && 
 				gameBoard[x1][y2].getTeam() == gameBoard[x2][y2].getTeam()) {
+			System.out.println("in");
 			King king = (King)gameBoard[x1][y1];
 			Rook rook = (Rook)gameBoard[x2][y2];
 			//King or Rook already moved
-			if(king.getMoved() || rook.getMoved())
-				return false;
+			if(king.getMoved() || rook.getMoved()) {
+				System.out.println("here1");
+				return false;}
 			//right side
 			else if(y2 == 7) {
-				for(int i = 4; i< 7; i++) {
-					if(gameBoard[x1][i] != null)
+				//Checks if path is clear
+				for(int i = 5; i < 7; i++) {
+					if(gameBoard[x1][i] != null) {
+						System.out.println("here2");
 						return false;
+					}
 				}
 				king.setMoved();
 				rook.setMoved();
@@ -97,9 +154,12 @@ public class board {
 			}
 			//left side
 			else if(y2 == 0){
-				for(int i = 0; i < 4; i++) {
-					if(gameBoard[x1][i] != null)
+				//Checks if path is clear
+				for(int i = 1; i < 4; i++) {
+					if(gameBoard[x1][i] != null) {
+						System.out.println("here3");
 						return false;
+					}
 				}
 				king.setMoved();
 				rook.setMoved();
@@ -111,17 +171,19 @@ public class board {
 				return true;
 			}
 		}
+		
 		//Confirm Move
-		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2,y2)) {
+		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2, y2)) {
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
 			turns++;
 			return true;
 		}
-		else
+		else {
+			System.out.println("Failed");
 			return false;
+		}
 	}
-	
 
 	/**
 	 * Turns pawn into desired Piece
@@ -226,175 +288,12 @@ public class board {
 	 * 
 	 * @return
 	 */
-	public boolean checkmate(Piece gameBoard[][], char team) {
-		ArrayList<int[]> possiblemoves = new ArrayList<int[]>();
-		//Piece[][] tempBoard = gameBoard.clone();
-		
-		int[] kingPos = getKingPosition(gameBoard, team);
-		
-		//calculate possible moves
-		int[] topleft = new int[]{kingPos[0] - 1, kingPos[1] - 1 };
-		int[] top = new int[]{kingPos[0] - 1, kingPos[1] };
-		int[] topright = new int[]{kingPos[0] - 1, kingPos[1] + 1 };
-		int[] right = new int[]{kingPos[0], kingPos[1] + 1 };
-		int[] bottomright = new int[]{kingPos[0] + 1, kingPos[1] + 1 };
-		int[] bottom = new int[]{kingPos[0] + 1, kingPos[1] };
-		int[] bottomleft = new int[]{kingPos[0] + 1, kingPos[1] - 1 };;
-		int[] left = new int[]{kingPos[0], kingPos[1] - 1 };
-		
-
-		//TODO: wait for Dennis to change movePiece so I can adjust the conditions of adding possible moves
-		if(isCoordWithinBounds(topleft[0], topleft[1]) == true) {
-			if(gameBoard[topleft[0]][topleft[1]] != null) {
-				if(gameBoard[topleft[0]][topleft[1]].getTeam() != team) {
-					possiblemoves.add(topleft);
-				}
-			}
-			else if(gameBoard[topleft[0]][topleft[1]] == null) {
-				possiblemoves.add(topleft);
-			}
-
-		}
-	
-		if(isCoordWithinBounds(top[0], top[1]) == true) {
-			if(gameBoard[top[0]][top[1]] != null) {
-				if(gameBoard[top[0]][top[1]].getTeam() != team) {
-					possiblemoves.add(top);
-				}
-			}
-			else if(gameBoard[top[0]][top[1]] == null) {
-				possiblemoves.add(top);
-			}
-
-		}
-		
-		if(isCoordWithinBounds(topright[0], topright[1]) == true) {
-			if(gameBoard[topright[0]][topright[1]] != null) {
-				if(gameBoard[topright[0]][topright[1]].getTeam() != team) {
-					possiblemoves.add(topright);
-				}
-			}
-			else if(gameBoard[topright[0]][topright[1]] == null) {
-				possiblemoves.add(topright);
-			}
-
-		}
-		
-		if(isCoordWithinBounds(right[0], right[1]) == true) {
-			if(gameBoard[right[0]][right[1]] != null) {
-				if(gameBoard[right[0]][right[1]].getTeam() != team) {
-					possiblemoves.add(right);
-				}
-			}
-			else if(gameBoard[right[0]][right[1]] == null) {
-				possiblemoves.add(right);
-			}
-
-		}
-		if(isCoordWithinBounds(bottomright[0], bottomright[1]) == true) {
-			if(gameBoard[bottomright[0]][bottomright[1]] != null) {
-				if(gameBoard[bottomright[0]][bottomright[1]].getTeam() != team) {
-					possiblemoves.add(bottomright);
-				}
-			}
-			else if(gameBoard[bottomright[0]][bottomright[1]] == null) {
-				possiblemoves.add(bottomright);
-			}
-
-		}
-		
-		if(isCoordWithinBounds(bottom[0], bottom[1]) == true) {
-			if(gameBoard[bottom[0]][bottom[1]] != null) {
-				if(gameBoard[bottom[0]][bottom[1]].getTeam() != team) {
-					possiblemoves.add(bottom);
-				}
-			}
-			else if(gameBoard[bottom[0]][bottom[1]] == null) {
-				possiblemoves.add(bottom);
-			}
-
-		}
-		
-		if(isCoordWithinBounds(bottomleft[0], bottomleft[1]) == true) {
-			if(gameBoard[bottomleft[0]][bottomleft[1]] != null) {
-				if(gameBoard[bottomleft[0]][bottomleft[1]].getTeam() != team) {
-					possiblemoves.add(bottomleft);
-				}
-			}
-			else if(gameBoard[bottomleft[0]][bottomleft[1]] == null) {
-				possiblemoves.add(bottomleft);
-			}
-
-		}
-		
-		if(isCoordWithinBounds(left[0], left[1]) == true) {
-			if(gameBoard[left[0]][left[1]] != null) {
-				if(gameBoard[left[0]][left[1]].getTeam() != team) {
-					possiblemoves.add(left);
-				}
-			}
-			else if(gameBoard[left[0]][left[1]] == null) {
-				possiblemoves.add(left);
-			}
-
-		}
-		
-		Piece kingPiece = gameBoard[kingPos[0]][kingPos[1]]; //temporarily holds king piece
-		//Piece destinationPiece = null;                       //will be used to hold pieces if they occupy the possible move's destination
-		            											//temporarily remove king piece
-		
-
-		
-			for(int i = 0; i <possiblemoves.size(); i++) {
-				
-				int destinationRow = possiblemoves.get(i)[0];
-				int destinationCol = possiblemoves.get(i)[1];
-				
-				//move king to possible destination on gameboard clone
-				Piece[][] tempBoard = gameBoard.clone();
-				tempBoard[kingPos[0]][kingPos[1]] = null;
-				tempBoard[destinationRow][destinationCol] = kingPiece;
-				
-				//see if king is in check at the new destination
-				if( !(check(tempBoard, 'w' )) ) {
-					return false; //there is at least one escape for king, not checkmate yet!
-				}
-				
-				
-				
-				/*
-				if( tempBoard[destinationRow][destinationCol] != null) {
-					if( tempBoard[destinationRow][destinationCol].getTeam() == 'b') {
-						
-						//move king piece to destination
-						//destinationPiece = tempBoard[destinationRow][destinationCol]; //temporarily hold destination piece
-						tempBoard[kingPos[0]][kingPos[1]] = null;
-						tempBoard[destinationRow][destinationCol] = kingPiece;
-						//tempBoard[kingPos[0]][kingPos[1]] = kingPiece;
-						
-						//see if king is still in check despite moving to destination
-						if( !(check(tempBoard, 'w' )) ) {
-							return false; //there is at least one escape for king, not checkmate yet!
-						}
-						
-					}
-				}
-				else if( gameBoard[destinationRow][destinationCol] == null) {
-					
-				} */
-			}
-		
-		
-	
-		
-		
-		
-		
-		return true; // no escape routes, checkmate!
+	public boolean checkmate() {
+		return false;
 	}
 
 	//Prints out current state of Board
-	public void printBoard() {
+	public void printBoard() { 
 		for(int x = 0; x < 8; x++) {
 			for(int y = 0; y < 8; y++) {
 				if(gameBoard[x][y] == null) {
@@ -479,14 +378,5 @@ public class board {
 		kingPos[1] = kingCol;
 		
 		return kingPos;
-	}
-	
-	private boolean isCoordWithinBounds(int x, int y) {
-		if ( x >= 0 && x <= 7 ) {
-			if ( y >=0 && y <= 7) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
