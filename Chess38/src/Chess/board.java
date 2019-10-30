@@ -81,8 +81,8 @@ public class board {
 		
 		
 		//Checks if desired move is out of bounds
-		if((x1 > 8 || x1 < 0) || (x2 > 8 || x2 < 0) ||
-				(y1 > 8 || y1 < 0) || (y2 > 8 || y2 < 0)) {
+		if((x1 > 7 || x1 < 0) || (x2 > 7 || x2 < 0) ||
+				(y1 > 7 || y1 < 0) || (y2 > 7 || y2 < 0)) {
 			//System.out.println("out of bounds");
 			return false;
 		}
