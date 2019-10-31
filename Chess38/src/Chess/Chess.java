@@ -52,6 +52,7 @@ public class Chess {
 			draw = false;
 			if(input.length() == 5) {
 				if(!Game.movePiece(input)) {
+
 					System.out.println("Illegal move, try again");
 					continue;
 				}

@@ -43,12 +43,16 @@ public class King extends Piece {
 		
 		//king moving more than 1 space
 		if((Math.abs(x1-x2) != 1) || (Math.abs(y2-y1) != 1)) {
+			//System.out.println("In first king condition");
 			return false;
 		}
 		//same team piece blocking
 		else if(gameBoard[x2][y2] != null)
-			if(gameBoard[x2][y2].getTeam() == gameBoard[x1][y1].getTeam())
+			if(gameBoard[x2][y2].getTeam() == gameBoard[x1][y1].getTeam()) {
+				//System.out.println("In king second condition")
 				return false;
+			}
+				
 			else {
 				this.setMoved();
 				return true;

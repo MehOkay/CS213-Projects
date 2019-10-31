@@ -109,6 +109,7 @@ public class board {
 			return false;
 		}
 		
+
 		/*En passant
 		 * Conditions 
 		 * 	first piece must be Pawn 
@@ -143,8 +144,10 @@ public class board {
 		 *  nothing in between King and Rook
 		 *  Both Pieces cannot be Moved prior to castle
 		 */
-		if(gameBoard[x1][y1].getType().equals("King") && 
-				((x1 == 7|| x1 == 0) && (x1 == x2))) {
+		if(gameBoard[x1][y1].getType().equals("King") && ((x1 == 7|| x1 == 0) && (x1 == x2)) && 
+				(((King)gameBoard[x1][y1]).getMoved() == false)) {
+			
+			//System.out.println("YEEET");
 			//System.out.println("in");
 			King king = (King)gameBoard[x1][y1];
 			Rook rook;
@@ -165,7 +168,7 @@ public class board {
 				gameBoard[x2][6] = king;
 				gameBoard[x2][5] = rook;
 				gameBoard[x1][y1] = null;
-				gameBoard[x2][y2] = null;
+				gameBoard[x2][7] = null;
 				turns++;
 				return true;
 			}
@@ -187,7 +190,7 @@ public class board {
 				gameBoard[x1][2] = king;
 				gameBoard[x1][3] = rook;
 				gameBoard[x1][y1] = null;
-				gameBoard[x2][y2] = null;
+				gameBoard[x2][0] = null;
 				turns++;
 				return true;
 			}
@@ -195,19 +198,33 @@ public class board {
 				return false;
 		}
 		
+	
 		//Confirm Move
 		if(gameBoard[x1][y1].checkMove(gameBoard, x1, y1, x2, y2)) {
 			
-			if(check(gameBoard, gameBoard[x1][y1].getTeam()) == true){
-			//working on check here	
-			}
+			//System.out.println("YEETTTTTTT");
 			
+			//temporarily holds both pieces
+			Piece movingPiece = gameBoard[x1][y1];
+			Piece destinationPiece = gameBoard[x2][y2];
+			
+			//does the actual moving of pieces
 			gameBoard[x2][y2] = gameBoard[x1][y1];
 			gameBoard[x1][y1] = null;
+			
+			//if moving this piece puts the team in check, then this is an illegal move. Must bring king to safety first
+			if(check(gameBoard, movingPiece.getTeam()) == true){
+				
+				//return pieces to original places
+				gameBoard[x2][y2] = destinationPiece;
+				gameBoard[x1][y1] = movingPiece;
+				return false;
+			}
 			turns++;
 			return true;
 		}
 		else {
+			
 			//System.out.println("Failed");
 			return false;
 		}
