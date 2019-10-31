@@ -140,25 +140,20 @@ public class board {
 		/*Castle - only applies to rook and king of same color
 		 * Conditions
 		 * 	first Piece must be a King
-		 *  second Piece must be a Rook
-		 *  they must both be the same Color
+		 *  nothing in between King and Rook
 		 *  Both Pieces cannot be Moved prior to castle
-		 *  not Pieces can be in between them
-		*/
-		//King, Rook, Same color
-		if((gameBoard[x1][y1].getType().equals("King") && 
-				gameBoard[x2][y2].getType().equals("Rook")) && 
-				gameBoard[x1][y2].getTeam() == gameBoard[x2][y2].getTeam()) {
-			//System.out.println("in");
+		 */
+		if(gameBoard[x1][y1].getType().equals("King") && 
+				((x1 == 7|| x1 == 0) && (x1 == x2))) {
+			System.out.print("in");
 			King king = (King)gameBoard[x1][y1];
-			Rook rook = (Rook)gameBoard[x2][y2];
-			//King or Rook already moved
-			if(king.getMoved() || rook.getMoved()) {
-				//System.out.println("here1");
-				return false;}
-			//right side
-			else if(y2 == 7) {
-				//Checks if path is clear
+			Rook rook;
+			//right
+			if (y2 > 4) {
+				rook = (Rook) gameBoard[x1][7];
+				if (king.getMoved() || rook.getMoved()) {
+					return false;
+				}
 				for(int i = 5; i < 7; i++) {
 					if(gameBoard[x1][i] != null) {
 					//	System.out.println("here2");
@@ -167,16 +162,21 @@ public class board {
 				}
 				king.setMoved();
 				rook.setMoved();
-				gameBoard[x2][6] = king;
-				gameBoard[x2][5] = rook;
-				gameBoard[x1][y1] = null;
-				gameBoard[x2][y2] = null;
+				gameBoard[x2][y2] = king;
+				gameBoard[x2][y2-1] = rook;
+				if(y2-1 != y1)
+					gameBoard[x1][y1] = null;
+				if(y2 != 7)
+					gameBoard[x1][7] = null;
 				turns++;
 				return true;
-				
 			}
-			//left side
-			else if(y2 == 0){
+			//left
+			else {
+				rook = (Rook) gameBoard[x1][0];
+				if (king.getMoved() || rook.getMoved()) {
+					return false;
+				}
 				//Checks if path is clear
 				for(int i = 1; i < 4; i++) {
 					if(gameBoard[x1][i] != null) {
@@ -186,13 +186,15 @@ public class board {
 				}
 				king.setMoved();
 				rook.setMoved();
-				gameBoard[x1][2] = king;
-				gameBoard[x1][3] = rook;
-				gameBoard[x1][y1] = null;
-				gameBoard[x2][y2] = null;
+				gameBoard[x1][y2] = king;
+				gameBoard[x1][y2+1] = rook;
+				if(y2+1 != y1)
+					gameBoard[x1][y1] = null;
+				if(y2 != 0)
+					gameBoard[x2][0] = null;
 				turns++;
 				return true;
-			}
+			}	
 		}
 		
 		//Confirm Move
