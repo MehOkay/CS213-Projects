@@ -1,7 +1,7 @@
 package Chess;
 import java.util.Scanner;
 
-/**
+/***
  * The Main class runs the full game
  * @author Wesley Cheung
  * @author Dennis Yu
